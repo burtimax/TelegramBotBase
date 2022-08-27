@@ -24,6 +24,7 @@ _UpgradeReport_Files/
 ###############
 bin/
 obj/
+.idea/
 wwwroot/src/
 TestResults/
 TelegramBot/appsettings.Development.json
