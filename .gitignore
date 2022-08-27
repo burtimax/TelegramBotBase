@@ -26,6 +26,7 @@ bin/
 obj/
 wwwroot/src/
 TestResults/
+TelegramBot/appsettings.Development.json
 ###################
 # Web publish log #
 ###################
