@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <RootNamespace>BotApplication</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="Telegram.Bot" Version="18.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Src\BotStore\Interfaces\IServices" />
+    <Folder Include="Src\BotStore\Service" />
+    <Folder Include="Src\Bot\Db\MigrationsData" />
+    <Folder Include="Src\BotStore\Db\MigrationsData" />
+    <Folder Include="wwwroot\__temp__\" />
+    <Folder Include="wwwroot\src\documents\" />
+    <Folder Include="wwwroot\src\report\materials\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdditionalTools\AdditionalTools.csproj" />
+    <ProjectReference Include="..\TelegramBotAdditionalTools\TelegramBotAdditionalTools.csproj" />
+  </ItemGroup>
+
+
+</Project>
