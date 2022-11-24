@@ -1,35 +1,32 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using File = Telegram.Bot.Types.File;
-
 
 namespace TelegramBotTools.Models.Message
 {
     /// <summary>
-    /// Документ
+    /// Изображение
     /// </summary>
-    public class MessageDocument : MessageData
+    public class MessagePicture : MessageData
     {
-        public string FileName { get; set; }
-        public string Caption { get; set; }
-
         /// <summary>
         /// Асинхронный фабричный метод
         /// </summary>
         /// <param name="filePath">Полный путь к файлу</param>
         /// <returns>Новый экземпляр</returns>
-        public static Task<MessageDocument> GetNewAsync(FilePath filePath)
+        public static Task<MessagePicture> GetNewAsync(FilePath filePath)
         {
-            return MessageData.GetNewInstanceAsync<MessageDocument>(filePath);
+            return MessageData.GetNewInstanceAsync<MessagePicture>(filePath);
         }
 
-        public MessageDocument(FileData file, string caption = null)
+        public MessagePicture(FileData file, string caption = null)
         {
             this.File = file;
             this.Caption = caption;
         }
 
-        public MessageDocument()
+        public MessagePicture() : base()
         {
 
         }

@@ -5,14 +5,13 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramBotTools.Enums;
-using TelegramBotTools.MessageData;
 using TelegramBotTools.Models.Message;
 
 namespace TelegramBotTools.Helpers
 {
     public class HelperBot
     {
-        public static async Task<MessagePhoto> GetPhotoAsync(TelegramBotClient bot, Message mes, PhotoQuality quality = PhotoQuality.High)
+        public static async Task<MessagePicture> GetPhotoAsync(TelegramBotClient bot, Message mes, PhotoQuality quality = PhotoQuality.High)
         {
             if (bot == null ||
                 mes == null ||
@@ -21,9 +20,9 @@ namespace TelegramBotTools.Helpers
             int qualityIndex = (int) Math.Round(((int)quality) / ((double)PhotoQuality.High) * mes.Photo.Length-1);
             string fileId = null;
             fileId = mes.Photo[qualityIndex].FileId;
-            MessagePhoto photo = new MessagePhoto();
-            photo.File = await GetFile(bot, mes, fileId) ;
-            return photo;
+            MessagePicture picture = new MessagePicture();
+            picture.File = await GetFile(bot, mes, fileId) ;
+            return picture;
         }
 
 
@@ -56,11 +55,9 @@ namespace TelegramBotTools.Helpers
                 mes == null ||
                 string.IsNullOrEmpty(fileId)) return null ;
 
-            FileData fileData = null;
-            MemoryStream ms = new MemoryStream();
-            fileData = new FileData();
-            fileData.Info = await bot.GetInfoAndDownloadFileAsync(fileId, ms);
-            fileData.Data = ms.ToArray();
+            FileData fileData = new FileData();
+            fileData.Stream = new MemoryStream();
+            fileData.Info = await bot.GetInfoAndDownloadFileAsync(fileId, fileData.Stream);
             return fileData;
         }
     }

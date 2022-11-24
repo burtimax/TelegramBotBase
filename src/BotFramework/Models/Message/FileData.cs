@@ -19,21 +19,22 @@ namespace TelegramBotTools.Models.Message
         /// <summary>
         /// Поток для работы с файлом
         /// </summary>
-        public MemoryStream Stream
+        public MemoryStream? Stream
         {
             get;
-            private set;
+            set;
         }
 
+        //ToDo Не нравится мне это свойство, убрать и оставить только stream
         /// <summary>
         /// Свойство-обертка над потоком для удобства работы с файлом
         /// </summary>
         public byte[] Data
         {
-            set
-            {
-                this.Stream = new MemoryStream(value);
-            }
+            // set
+            // {
+            //     this.Stream = new MemoryStream(value);
+            // }
             get
             {
                 return this.Stream.ToArray();
@@ -44,20 +45,18 @@ namespace TelegramBotTools.Models.Message
         /// Сохранить файл по полному наименованию
         /// </summary>
         /// <param name="filePath">Полный путь к файлу, который нужно сохранить</param>
-        public async Task SaveFile(string filePath)
+        public async Task SaveFile(FilePath filePath)
         {
             if(IsNullData())
             {
                 throw new FileNullDataException();
             }
-            
-            string directoryName = Path.GetDirectoryName(filePath);
-            
-            if (System.IO.Directory.Exists(directoryName) == false)
-            {
-                throw new NotExistingDirectoryException(directoryName);
-            }
 
+            if (filePath.IsDirectoryExists() == false)
+            {
+                throw new NotExistingDirectoryException(filePath.DirectoryName);
+            }
+            
             DeleteExistedFile(filePath);
             
             await System.IO.File.WriteAllBytesAsync(filePath, this.Data);

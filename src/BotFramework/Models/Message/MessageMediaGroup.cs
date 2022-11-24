@@ -1,11 +1,20 @@
 ﻿using System.Collections.Generic;
-using TelegramBotTools.Models.Message;
 
-namespace TelegramBotTools.MessageData
+namespace TelegramBotTools.Models.Message
 {
+    /// <summary>
+    /// Группа медиа файлов
+    /// </summary>
     public class MessageMediaGroup
     {
+        /// <summary>
+        /// Список файлов
+        /// </summary>
         public List<FileData> Files { get; set; }
+        
+        /// <summary>
+        /// Сообщение к группе медиа файлов
+        /// </summary>
         public string Caption { get; set; }
 
         public MessageMediaGroup()

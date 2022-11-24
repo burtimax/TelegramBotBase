@@ -3,9 +3,9 @@ using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using TelegramBotTools.Enums;
 using TelegramBotTools.Helpers;
-using TelegramBotTools.MessageData;
+using TelegramBotTools.Models.Message;
 
-namespace TelegramBotTools.Tools
+namespace TelegramBotTools.Models
 {
     public class InboxMessage
     {
@@ -93,7 +93,7 @@ namespace TelegramBotTools.Tools
         /// </summary>
         /// <param name="quality"></param>
         /// <returns></returns>
-        public Task<MessagePhoto> GetMessagePhotoAsync(PhotoQuality quality)
+        public Task<MessagePicture> GetMessagePhotoAsync(PhotoQuality quality)
         {
             return HelperBot.GetPhotoAsync(this.Bot, this.BaseMessage, quality);
         }

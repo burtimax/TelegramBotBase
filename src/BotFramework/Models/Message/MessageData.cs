@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 using TelegramBotTools.Exceptions;
 using TelegramBotTools.Helpers;
 
@@ -23,6 +24,30 @@ namespace TelegramBotTools.Models.Message
         public string Caption { get; set; }
 
         /// <summary>
+        /// Асинхронный фабричный метод
+        /// </summary>
+        /// <param name="filePath">Полный путь к файлу</param>
+        /// <typeparam name="T">Тип,наследник класса MessageData</typeparam>
+        /// <returns>Новый экземпляр класса T</returns>
+        /// <exception cref="NotExistingFileException"></exception>
+        public static async Task<T> GetNewInstanceAsync<T>(FilePath filePath) where T : MessageData, new()
+        {
+            if (filePath.IsFileExists() == false)
+            {
+                throw new NotExistingFileException(filePath);
+            }
+
+            T instance = new T();
+            instance.File = new FileData();
+            instance.File.Stream = new MemoryStream(await System.IO.File.ReadAllBytesAsync(filePath));
+            instance.File.Info = new Telegram.Bot.Types.File();
+            instance.File.Info.FilePath = filePath;
+            instance.File.Info.FileSize = instance.File.Data.Length;
+
+            return instance;
+        }
+        
+        /// <summary>
         /// Сохранить данные в файл
         /// </summary>
         /// <param name="filePath"></param>
@@ -33,7 +58,7 @@ namespace TelegramBotTools.Models.Message
                 throw new NotExistingDirectoryException(filePath.DirectoryName);
             }
 
-            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            using (FileStream fs = new(filePath, FileMode.OpenOrCreate))
             {
                  await fs.WriteAsync(this.File.Data,0,this.File.Data.Length);   
             }
@@ -50,13 +75,10 @@ namespace TelegramBotTools.Models.Message
                 throw new NotExistingFileException(filePath);
             }
 
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new (filePath, FileMode.Open))
             {
-                if(this.File.Stream == null)
-                {
-                    this.File.Data = new byte[Convert.ToInt32(fs.Length)];
-                }
                 await fs.ReadAsync(this.File.Data, 0, Convert.ToInt32(fs.Length));
+                await fs.CopyToAsync(this.File.Stream);
             }
         }
     }

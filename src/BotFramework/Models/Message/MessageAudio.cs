@@ -1,11 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using TelegramBotTools.Models.Message;
+using TelegramBotTools.Exceptions;
 using File = Telegram.Bot.Types.File;
 
-namespace TelegramBotTools.MessageData
+namespace TelegramBotTools.Models.Message
 {
+    /// <summary>
+    /// Аудиофайл
+    /// </summary>
     public class MessageAudio : Models.Message.MessageData
     {
         public string Title { get; set; }
@@ -20,21 +24,15 @@ namespace TelegramBotTools.MessageData
         {
         }
 
-        public MessageAudio(string filePath)
+        /// <summary>
+        /// Асинхронный фабричный метод
+        /// </summary>
+        /// <param name="filePath">Полный путь к файлу</param>
+        /// <returns>Новый экземпляр</returns>
+        public static Task<MessageAudio> GetNewAsync(FilePath filePath)
         {
-            if (System.IO.File.Exists(filePath) == false)
-            {
-                throw new Exception("File not found!!!");
-            }
-
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                this.File = new FileData();
-                this.File.Data = System.IO.File.ReadAllBytes(filePath);
-                this.File.Info = new File();
-                this.File.Info.FilePath = filePath;
-                this.File.Info.FileSize = this.File.Data.Length;
-            }
+            return MessageData.GetNewInstanceAsync<MessageAudio>(filePath);
+            
         }
     }
 }

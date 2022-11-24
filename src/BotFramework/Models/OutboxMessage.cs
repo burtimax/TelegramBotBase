@@ -7,9 +7,9 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBotTools.Enums;
-using TelegramBotTools.MessageData;
+using TelegramBotTools.Models.Message;
 
-namespace TelegramBotTools.Tools
+namespace TelegramBotTools.Models
 {
     public class OutboxMessage
     {
@@ -39,7 +39,7 @@ namespace TelegramBotTools.Tools
             this.Data = data;
         }
 
-        public OutboxMessage(MessagePhoto photo) : this((object) photo)
+        public OutboxMessage(MessagePicture picture) : this((object) picture)
         {
             this.Type = OutboxMessageType.Photo;
         }
@@ -164,11 +164,11 @@ namespace TelegramBotTools.Tools
 
                 //Send MessagePhoto Entity
                 case OutboxMessageType.Photo:
-                    MessagePhoto photo = (MessagePhoto)this.Data;
+                    MessagePicture picture = (MessagePicture)this.Data;
                     bot.SendPhotoAsync(
                         chatId: chatId,
-                        photo: new InputOnlineFile(photo.File.Stream),
-                        caption: photo.Caption,
+                        photo: new InputOnlineFile(picture.File.Stream),
+                        caption: picture.Caption,
                         replyToMessageId: this.ReplyToMessageId,
                         parseMode: this.ParseMode);
                     break;

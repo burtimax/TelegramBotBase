@@ -2,7 +2,7 @@
 using System.Linq;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace TelegramBotTools.Tools
+namespace TelegramBotTools.Models
 {
     public class MarkupWrapper<T>
     {

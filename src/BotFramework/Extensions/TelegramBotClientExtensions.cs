@@ -7,10 +7,10 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using TelegramBotTools.Enums;
-using TelegramBotTools.MessageData;
-using TelegramBotTools.Tools;
+using TelegramBotTools.Models;
+using TelegramBotTools.Models.Message;
 
-namespace TelegramBotTools.Helpers
+namespace TelegramBotTools.Extensions
 {
     public static class TelegramBotClientExtensions
     {
@@ -51,12 +51,12 @@ namespace TelegramBotTools.Helpers
 
                 //Send MessagePhoto Entity
                 case OutboxMessageType.Photo:
-                    MessagePhoto photo = (MessagePhoto) message.Data;
-                    var file = new InputOnlineFile(photo.File.Stream);
+                    MessagePicture picture = (MessagePicture) message.Data;
+                    var file = new InputOnlineFile(picture.File.Stream);
                     await bot.SendPhotoAsync(
                         chatId: chatId,
                         photo: file,
-                        caption: photo.Caption,
+                        caption: picture.Caption,
                         replyToMessageId: message.ReplyToMessageId,
                         parseMode: message.ParseMode,
                         replyMarkup: message.ReplyMarkup);
@@ -135,11 +135,11 @@ namespace TelegramBotTools.Helpers
         }
 
         /// <summary>
-        /// Get UserId or ChatId from Update (Обрати внимание, ели чат приватный, то UserId == ChatId, иначе не так)
+        /// Получить ИД чата из обновления (Обрати внимание, ели чат приватный, то UserId == ChatId, иначе не так)
         /// </summary>
-        /// <param name="bot"></param>
-        /// <param name="update"></param>
-        /// <returns></returns>
+        /// <param name="bot">Клиент Telegram API bot</param>
+        /// <param name="update">Сообщение или событие из Telegram для бота</param>
+        /// <returns>Идентификатор чата</returns>
         public static ChatId GetChatId(this TelegramBotClient bot, Update update)
         {
             switch (update.Type)

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using BotApplication.BotStore.Db.Context;
 using BotApplication.BotStore.Db.Entities;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBotTools.Tools;
+using TelegramBotTools.Models;
 using User = BotApplication.Bot.Db.DbBot.User;
 
 namespace BotApplication.BotStore.Data.States.Basket

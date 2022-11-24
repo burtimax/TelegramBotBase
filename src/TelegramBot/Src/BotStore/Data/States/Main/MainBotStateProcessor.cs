@@ -8,10 +8,10 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBotTools.Extensions;
 using TelegramBotTools.Helpers;
-using TelegramBotTools.MessageData;
+using TelegramBotTools.Models;
 using TelegramBotTools.Models.Message;
-using TelegramBotTools.Tools;
 using Message = Telegram.Bot.Types.Message;
 
 namespace BotApplication.BotStore.Data.States.Main
@@ -109,9 +109,9 @@ namespace BotApplication.BotStore.Data.States.Main
             fd.Data = System.IO.File.ReadAllBytes(PhotoHelper.GetPhotoFilePath(product.ImagePath));
             fd.Info = new File();
 
-            MessagePhoto messagePhoto = new MessagePhoto(fd, description);
+            MessagePicture messagePicture = new MessagePicture(fd, description);
 
-            OutboxMessage mes = new OutboxMessage(messagePhoto);
+            OutboxMessage mes = new OutboxMessage(messagePicture);
             mes.ReplyMarkup = inline;
 
             if (edit == false)
