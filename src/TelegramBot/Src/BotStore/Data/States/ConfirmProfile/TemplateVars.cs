@@ -11,7 +11,7 @@ namespace BotApplication.BotStore.Data.States.ConfirmProfile
         public static string BtnNorm = "Норм";
         public static string BtnEdit = "Редактировать";
 
-        public static MarkupWrapper<ReplyKeyboardMarkup> DefaultKeyboardMarkup = new MarkupWrapper<ReplyKeyboardMarkup>()
+        public static MarkupBuilder<ReplyKeyboardMarkup> DefaultKeyboardMarkup = new MarkupBuilder<ReplyKeyboardMarkup>()
             .NewRow()
             .Add(BtnNorm)
             .Add(BtnEdit);

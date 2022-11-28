@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,20 +12,40 @@ using TelegramBotTools.Models.Message;
 
 namespace TelegramBotTools.Models
 {
+    /// <summary>
+    /// Исходящее сообщение
+    /// </summary>
     public class OutboxMessage
     {
+        /// <summary>
+        /// Тип сообщения (текст, докумень, картинка, голосовое и т.д.)
+        /// </summary>
         public OutboxMessageType Type { get; private set; }
+        
+        /// <summary>
+        /// Объект сообщения.
+        /// </summary>
         public object Data { get; private set; }
-        public List<OutboxMessage> NestedElements { get; private set; }
+        
+        /// <summary>
+        /// Вложенные сообщения (если нужно отправить последовательно несколько сообщений)
+        /// </summary>
+        public List<OutboxMessage>? NestedElements { get; private set; }
+        
+        /// <summary>
+        /// Пользовательская клавиатура
+        /// </summary>
         public IReplyMarkup ReplyMarkup { get; set; }
+        
+        /// <summary>
+        /// Пометка, что сообщение является ответом на другое сообщение
+        /// </summary>
         public int ReplyToMessageId { get; set; }
 
-        private ParseMode _parseMode = ParseMode.Html;
-        public ParseMode ParseMode
-        {
-            get { return this._parseMode; }
-            set { this._parseMode = value; }
-        }
+        /// <summary>
+        /// Тип парсера сообщения
+        /// </summary>
+        public ParseMode ParseMode { get; set; } = ParseMode.Html;
 
         #region Constructors
 
@@ -100,8 +121,6 @@ namespace TelegramBotTools.Models
             }
         }
 
-
-
         public void AddMessageElement(OutboxMessage elem)
         {
             if (elem == null && elem.Data == null) return;
@@ -113,34 +132,34 @@ namespace TelegramBotTools.Models
 
             this.NestedElements.Add(elem);
         }
-
-
-
+        
         public void RemoveMessageElement(OutboxMessage elem)
         {
-            if (NestedElements == null && NestedElements?.Count == 0) return;
+            if (NestedElements == null && NestedElements?.Count == 0)
+            {
+                return;
+            }
 
             if (NestedElements.Contains(elem))
             {
                 NestedElements.Remove(elem);
             }
         }
-
-
-        public void SendOutboxMessage(TelegramBotClient bot, ChatId chatId)
+        
+        public Task SendOutboxMessage(TelegramBotClient bot, ChatId chatId)
         {
-            SendOutboxMessageToChat(bot, chatId);
+            return SendOutboxMessageToChat(bot, chatId);
         }
-        public void SendOutboxMessage(TelegramBotClient bot, long id)
+        public Task SendOutboxMessage(TelegramBotClient bot, long id)
         {
-            SendOutboxMessageToChat(bot, new ChatId(id));
+            return SendOutboxMessageToChat(bot, new ChatId(id));
         }
-        public void SendOutboxMessage(TelegramBotClient bot, string username)
+        public Task SendOutboxMessage(TelegramBotClient bot, string username)
         {
-            SendOutboxMessageToChat(bot, new ChatId(username));
+            return SendOutboxMessageToChat(bot, new ChatId(username));
         }
 
-        private void SendOutboxMessageToChat(TelegramBotClient bot, ChatId chatId)
+        private async Task SendOutboxMessageToChat(TelegramBotClient bot, ChatId chatId)
         {
 
             if (bot == null ||
@@ -154,7 +173,7 @@ namespace TelegramBotTools.Models
             {
                 //Send Text
                 case OutboxMessageType.Text:
-                    bot.SendTextMessageAsync(
+                    await bot.SendTextMessageAsync(
                     chatId: chatId,
                     text: (string)this.Data,
                     replyMarkup: this.ReplyMarkup,
@@ -165,7 +184,7 @@ namespace TelegramBotTools.Models
                 //Send MessagePhoto Entity
                 case OutboxMessageType.Photo:
                     MessagePicture picture = (MessagePicture)this.Data;
-                    bot.SendPhotoAsync(
+                    await bot.SendPhotoAsync(
                         chatId: chatId,
                         photo: new InputOnlineFile(picture.File.Stream),
                         caption: picture.Caption,
@@ -175,7 +194,7 @@ namespace TelegramBotTools.Models
                 //Send MessageAudio Entity
                 case OutboxMessageType.Audio:
                     MessageAudio audio = (MessageAudio)this.Data;
-                    bot.SendAudioAsync(
+                    await bot.SendAudioAsync(
                         chatId: chatId,
                         audio: new InputOnlineFile(audio.File.Stream),
                         caption: audio.Caption,
@@ -189,7 +208,7 @@ namespace TelegramBotTools.Models
                 //Send MessageVoice Entity
                 case OutboxMessageType.Voice:
                     MessageVoice voice = (MessageVoice)this.Data;
-                    bot.SendVoiceAsync(
+                    await bot.SendVoiceAsync(
                         chatId: chatId,
                         voice: new InputOnlineFile(voice.File.Stream),
                         replyMarkup: this.ReplyMarkup,
@@ -206,7 +225,7 @@ namespace TelegramBotTools.Models
             //Рекурсивно вызываем отправку вложенных элементов сообщения.
             foreach (var item in this.NestedElements)
             {
-                item.SendOutboxMessageToChat(bot, chatId);
+                await item.SendOutboxMessageToChat(bot, chatId);
             }
         }
 

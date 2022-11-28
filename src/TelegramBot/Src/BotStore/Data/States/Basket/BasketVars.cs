@@ -53,9 +53,9 @@ namespace BotApplication.BotStore.Data.States.Basket
             return sb.ToString().Trim('\n');
         }
 
-        public static MarkupWrapper<ReplyKeyboardMarkup> BasketKeyboard()
+        public static MarkupBuilder<ReplyKeyboardMarkup> BasketKeyboard()
         {
-            return new MarkupWrapper<ReplyKeyboardMarkup>()
+            return new MarkupBuilder<ReplyKeyboardMarkup>()
                 .NewRow()
                 .Add(BasketBtn)
                 .Add(ClearBtn)

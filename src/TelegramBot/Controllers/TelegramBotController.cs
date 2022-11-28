@@ -29,7 +29,6 @@ namespace BotApplication.Controllers
             }
         }
 
-        
         [HttpGet("bot")]
         public async Task<ActionResult> GetBot()
         {

@@ -7,6 +7,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using TelegramBotTools.Enums;
+using TelegramBotTools.Exceptions;
 using TelegramBotTools.Models;
 using TelegramBotTools.Models.Message;
 
@@ -31,8 +32,7 @@ namespace TelegramBotTools.Extensions
         {
             
             if (bot == null ||
-                ((chatId == null || chatId?.Identifier == 0) && 
-                 string.IsNullOrEmpty(chatId?.Username)))
+                chatId == null)
             {
                 throw new ArgumentNullException();
             }
@@ -41,7 +41,7 @@ namespace TelegramBotTools.Extensions
             {
                 //Send Text
                 case OutboxMessageType.Text:
-                        await bot.SendTextMessageAsync(
+                    await bot.SendTextMessageAsync(
                         chatId: chatId, 
                         text: (string) message.Data, 
                         replyMarkup:message.ReplyMarkup,
@@ -123,7 +123,7 @@ namespace TelegramBotTools.Extensions
 
                 //ToDo other Types of message!
                 default:
-                    throw new Exception("Не поддерживаемый тип отправки сообщений");
+                    throw new UnsupportedMessageTypeException(nameof(message.Type));
                     break;
             }
             
