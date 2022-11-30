@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BotFramework.Interfaces;
 using Telegram.Bot;
-using TelegramBotTools.Interfaces;
 
-namespace TelegramBotTools.Implementation
+namespace BotFramework.Implementation
 {
     /// <inheritdoc cref="IUpdateHandler"/>
     public class UpdateHandler : IUpdateHandler

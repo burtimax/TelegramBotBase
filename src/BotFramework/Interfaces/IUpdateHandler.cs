@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot;
 
-namespace TelegramBotTools.Interfaces
+namespace BotFramework.Interfaces
 {
     /// <summary>
     /// Обработка сообщений или событий бота 

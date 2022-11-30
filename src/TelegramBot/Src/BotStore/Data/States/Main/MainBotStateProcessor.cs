@@ -4,14 +4,13 @@ using BotApplication.Bot.Code;
 using BotApplication.BotStore.Data.States.Basket;
 using BotApplication.BotStore.Db.Entities;
 using BotApplication.BotStore.Helpers;
+using BotFramework.Extensions;
+using BotFramework.Models;
+using BotFramework.Models.Message;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBotTools.Extensions;
-using TelegramBotTools.Helpers;
-using TelegramBotTools.Models;
-using TelegramBotTools.Models.Message;
 using Message = Telegram.Bot.Types.Message;
 
 namespace BotApplication.BotStore.Data.States.Main

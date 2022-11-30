@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TelegramBotTools.Models.Message
+namespace BotFramework.Models.Message
 {
     /// <summary>
     /// Группа медиа файлов

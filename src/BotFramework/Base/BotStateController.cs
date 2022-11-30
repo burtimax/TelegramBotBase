@@ -1,6 +1,6 @@
-﻿using System.Security.AccessControl;
+﻿using BotFramework.Interfaces;
 
-namespace TelegramBotTools.Base
+namespace BotFramework.Base
 {
     /// <summary>
     /// Контроллер состояний бота.
@@ -9,19 +9,19 @@ namespace TelegramBotTools.Base
     public class BotStateController
     {
         public Bot Bot { get; set; }
-        private BotControllerAdditionalMethods additionalMethods;
+        private IBaseBotRepository _botRepository;
 
         private BotUpdateProcessor updateProcessor;
 
         protected BotStateController(Bot bot)
         {
             this.Bot = bot;
-            this.additionalMethods = new BotControllerAdditionalMethods();
+            this._botRepository = new BotControllerAdditionalMethods();
         }
 
-        protected BotProcessController(Code.Bot bot, BotControllerAdditionalMethods additionalMethods):this(bot)
+        protected BotProcessController(Bot bot, IBaseBotRepository botRepository):this(bot)
         {
-            this.additionalMethods = additionalMethods;
+            this._botRepository = botRepository;
         }
 
         
@@ -32,7 +32,7 @@ namespace TelegramBotTools.Base
             {
                 //Create BotContext concrete object
                 BotContext dbBotContext = bot.GetNewBotContext();
-                this.additionalMethods.Db = dbBotContext;
+                this._botRepository.Db = dbBotContext;
 
                 //Get objects from Update
                 User telegramUser = update.GetUser();
@@ -54,7 +54,7 @@ namespace TelegramBotTools.Base
                 #endregion
 
                 //Get Chat model from DataBase to process Update
-                Db.DbBot.Chat chatModel = await additionalMethods.GetChat(telegramChat.Id);
+                Db.DbBot.Chat chatModel = await _botRepository.GetChat(telegramChat.Id);
                 var curState = bot.StateStorage.Get(chatModel.GetCurrentStateName());
                 string curStateName = curState.ClassName;
                 //---Process Update---
@@ -71,8 +71,8 @@ namespace TelegramBotTools.Base
                     commandStorage = bot.CommandStorage,
                     state = curState,
                     update = update,
-                    chat = await additionalMethods.GetChat(telegramChat.Id),
-                    user = await additionalMethods.GetUser(telegramUser.Id)
+                    chat = await _botRepository.GetChat(telegramChat.Id),
+                    user = await _botRepository.GetUser(telegramUser.Id)
                 };
 
                 //Create Instance of Found BotStateProcessorClass
@@ -97,7 +97,7 @@ namespace TelegramBotTools.Base
                     State= chatModel.State,
                     StateData = hop.PriorityData != null ? hop.PriorityData : chatModel.StateData,
                 };
-                await additionalMethods.SetChatData(c);
+                await _botRepository.SetChatData(c);
 
                 if (hop.BlockSendAnswer == false)
                 {
@@ -120,15 +120,15 @@ namespace TelegramBotTools.Base
                                                                        $"<b>STACK TRACE</b>{exception.StackTrace}\n\n",
                     ParseMode.Html);
                 //in case of exception not save changes
-                this.additionalMethods.Db = null;
+                this._botRepository.Db = null;
             }
             finally
             {
                 //if wasn't exception save changes
-                if(this.additionalMethods.Db != null)
+                if(this._botRepository.Db != null)
                 {
-                    await this.additionalMethods.Db.SaveChangesAsync();
-                    this.additionalMethods.Db = null;
+                    await this._botRepository.Db.SaveChangesAsync();
+                    this._botRepository.Db = null;
                 }
             }
 
@@ -139,9 +139,9 @@ namespace TelegramBotTools.Base
         {
             if (user == null) throw new Exception("User is NULL");
 
-            if (await additionalMethods.IsUserInBot(user.Id) == false)
+            if (await _botRepository.IsUserInBot(user.Id) == false)
             {
-                await additionalMethods.AddUserToBot(user);
+                await _botRepository.AddUserToBot(user);
             }
         }
 
@@ -149,9 +149,9 @@ namespace TelegramBotTools.Base
         {
             if (chat == null) throw new Exception("Chat is NULL");
 
-            if (await additionalMethods.IsChatInBot(chat.Id) == false)
+            if (await _botRepository.IsChatInBot(chat.Id) == false)
             {
-                await additionalMethods.AddChatToBot(chat);
+                await _botRepository.AddChatToBot(chat);
             }
         }
 
@@ -161,7 +161,7 @@ namespace TelegramBotTools.Base
 
             if (update.Type == UpdateType.Message)
             {
-                await additionalMethods.SaveMessage(update.Message);
+                await _botRepository.SaveMessage(update.Message);
             }
         }
     }

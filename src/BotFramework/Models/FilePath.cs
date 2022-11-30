@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using TelegramBotTools.Exceptions;
+using BotFramework.Exceptions;
 
-namespace TelegramBotTools.Models
+namespace BotFramework.Models
 {
     /// <summary>
     /// Класс для работы с именем файла

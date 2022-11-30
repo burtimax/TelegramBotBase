@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot;
 
-namespace TelegramBotTools.Base
+namespace BotFramework.Base
 {
     /// <summary>
     /// базовый класс бота 

@@ -118,7 +118,7 @@ namespace BotApplication.Bot.Abstract
                     await bot.client.SendOutboxMessageAsync(chatModel.Id, outboxMessage);
                     //outboxMessage.SendOutboxMessage(BotApplication.client, chatModel.Id);
                 }
-                
+                11
             }
             catch (Exception exception)
             {

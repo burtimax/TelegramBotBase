@@ -21,8 +21,6 @@ namespace BotApplication.Bot.Db.DbBot
         /// </summary>
         public string Phone { get; set; }
 
-        
-        
         /// <summary>
         /// User role (DEF CurrentUser, moderator, admin, god)
         /// </summary>

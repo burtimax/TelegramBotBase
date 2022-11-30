@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using BotFramework.Enums;
+using BotFramework.Exceptions;
+using BotFramework.Models.Message;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramBotTools.Enums;
-using TelegramBotTools.Exceptions;
-using TelegramBotTools.Models.Message;
 
-namespace TelegramBotTools.Extensions
+namespace BotFramework.Extensions
 {
     public static class MessageDataExtensions
     {

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BotFramework.Enums;
+using BotFramework.Models.Message;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBotTools.Enums;
-using TelegramBotTools.Models.Message;
 
-namespace TelegramBotTools.Models
+namespace BotFramework.Models
 {
     /// <summary>
     /// Исходящее сообщение

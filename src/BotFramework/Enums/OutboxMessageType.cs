@@ -1,4 +1,4 @@
-﻿namespace TelegramBotTools.Enums
+﻿namespace BotFramework.Enums
 {
     /// <summary>
     /// Тип исходящего сообщения

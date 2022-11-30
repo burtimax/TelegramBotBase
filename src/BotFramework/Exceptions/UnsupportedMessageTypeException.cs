@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TelegramBotTools.Exceptions
+namespace BotFramework.Exceptions
 {
     public class UnsupportedMessageTypeException : Exception
     {

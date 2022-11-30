@@ -1,11 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using TelegramBotTools.Exceptions;
-using File = Telegram.Bot.Types.File;
 
-namespace TelegramBotTools.Models.Message
+namespace BotFramework.Models.Message
 {
     /// <summary>
     /// Аудиофайл

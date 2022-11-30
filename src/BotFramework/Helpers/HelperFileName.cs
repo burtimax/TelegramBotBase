@@ -1,4 +1,4 @@
-﻿namespace TelegramBotTools.Helpers
+﻿namespace BotFramework.Helpers
 {
     public static class HelperFileName
     {

@@ -1,5 +1,5 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBotTools.Models;
+﻿using BotFramework.Models;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace BotApplication.BotStore.Data.States.ConfirmProfile
 {

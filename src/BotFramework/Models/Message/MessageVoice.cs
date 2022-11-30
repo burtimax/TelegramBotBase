@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using File = Telegram.Bot.Types.File;
+﻿using System.Threading.Tasks;
 
-namespace TelegramBotTools.Models.Message
+namespace BotFramework.Models.Message
 {
     /// <summary>
     /// Голосовое сообщение

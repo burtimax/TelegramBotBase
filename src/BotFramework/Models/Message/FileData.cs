@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
-using TelegramBotTools.Exceptions;
+using BotFramework.Exceptions;
 using File = Telegram.Bot.Types.File;
 
-namespace TelegramBotTools.Models.Message
+namespace BotFramework.Models.Message
 {
     /// <summary>
     /// Базовый класс файла (информацию о файле + данные файла)
